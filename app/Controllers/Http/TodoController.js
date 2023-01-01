@@ -3,12 +3,11 @@ const Todos = use('App/Models/Todo');
 
 class TodoController {
     
-    async index() {
-        const todos = await Todos.query().paginate(1, 10);
+    async index({ request }) {
+        const query = request.get();
+        const todos = await Todos.query().paginate(query.page, 2);
 
-        return {
-            data: todos
-        }
+        return todos.toJSON()
     }
 
     async create({ request, response }){
