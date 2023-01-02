@@ -2,7 +2,7 @@
 const Todos = use('App/Models/Todo');
 
 class TodoController {
-    
+
     async index({ request }) {
         const query = request.get();
         const todos = await Todos.query().paginate(query.page, 2);
@@ -10,7 +10,7 @@ class TodoController {
         return todos.toJSON()
     }
 
-    async create({ request, response }){
+    async create({ request, response }) {
         const body = request.only(['name', 'description'])
 
         try {
@@ -21,7 +21,7 @@ class TodoController {
                 status: 'success',
                 data: newTodo
             })
-        } catch(err){
+        } catch (err) {
             return response.status(500).json({
                 code: 500,
                 status: 'error',
@@ -30,7 +30,7 @@ class TodoController {
         }
     }
 
-    async getDetail({ request }){
+    async getDetail({ request }) {
         const { id } = request.params;
 
         const searchedTodo = await Todos.find(id);
@@ -40,7 +40,25 @@ class TodoController {
         }
     }
 
-    async delete({ request, response }){
+    async edit({ request, response }) {
+        const body = request.only(['id', 'name', 'description'])
+
+        try {
+            await Todos
+                .query()
+                .where('id', body.id)
+                .update({
+                    name: body.name,
+                    description: body.description
+                });
+
+                return response.status(200).json({ code: 200, status: 'success', message: 'todo updated' })
+        } catch(err) {
+            return response.status(500).json({ code: 500, status: 'error', message: err.message })
+        }
+    }
+
+    async delete({ request, response }) {
         const { id } = request.params;
 
         // console.log(body)
@@ -48,9 +66,9 @@ class TodoController {
         try {
             const todo = await Todos.find(id);
             todo?.delete()
-    
+
             return response.status(200).json({ code: 200, status: 'success', data: todo })
-        } catch(err){
+        } catch (err) {
             return response.status(500).json({ code: 500, status: 'error', message: err.message })
         }
 
