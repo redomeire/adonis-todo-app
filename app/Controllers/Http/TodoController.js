@@ -5,7 +5,7 @@ class TodoController {
 
     async index({ request }) {
         const query = request.get();
-        const todos = await Todos.query().paginate(query.page, 2);
+        const todos = await Todos.query().paginate(query.page, 10);
 
         return todos.toJSON()
     }
@@ -61,8 +61,6 @@ class TodoController {
     async delete({ request, response }) {
         const { id } = request.params;
 
-        // console.log(body)
-
         try {
             const todo = await Todos.find(id);
             todo?.delete()
@@ -72,7 +70,21 @@ class TodoController {
             return response.status(500).json({ code: 500, status: 'error', message: err.message })
         }
 
-        // return response.redirect().toPath('/')
+    }
+
+    async search({ request, response }){
+        const query = request.get();
+
+        try{
+            const todos = await Todos
+            .query()
+            .where('name', 'LIKE', `%${query.q}%`)
+            .paginate(query.page, 2)
+
+            return response.status(200).json({ code: 200, status: 'success', data: todos })
+        } catch(err) {
+            return response.status(500).json({ code: 500, status: 'error', message: err.message })
+        }
     }
 }
 

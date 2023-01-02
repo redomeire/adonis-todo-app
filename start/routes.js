@@ -24,6 +24,8 @@ Route.get('/testing', () => 'hello world').as('get.hello')
 // Route.route('/', () => 'ini adalah multiple route', ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'])
 Route.put('/posts/edit', 'TodoController.edit')
 
+Route.get('/posts/search', 'TodoController.search')
+
 Route.get('/posts', 'TodoController.index')
 
 Route.post('/posts', 'TodoController.create')
@@ -31,7 +33,5 @@ Route.post('/posts', 'TodoController.create')
 Route.delete('/posts/:id', 'TodoController.delete')
 
 Route.get('/posts/:id', 'TodoController.getDetail')
-
-
 
 Route.post('/posts/create', 'TodoController.create')
