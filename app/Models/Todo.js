@@ -4,6 +4,9 @@
 const Model = use('Model')
 
 class Todo extends Model {
+    user(){
+        return this.belongsToMany('App/Models/User')
+    }
 }
 
 module.exports = Todo

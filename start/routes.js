@@ -18,7 +18,7 @@ const Route = use('Route')
 
 // Route.on('/').render('home')
 
-Route.get('/testing', () => 'hello world').as('get.hello')
+Route.get('/', () => 'hello world').as('get.hello')
 
 // simplify
 // Route.route('/', () => 'ini adalah multiple route', ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'])
@@ -35,3 +35,8 @@ Route.delete('/posts/:id', 'TodoController.delete')
 Route.get('/posts/:id', 'TodoController.getDetail')
 
 Route.post('/posts/create', 'TodoController.create')
+
+// authenticate
+Route.post('register', 'UserController.create')
+Route.post('login', 'UserController.login')
+
