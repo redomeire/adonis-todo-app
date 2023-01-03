@@ -18,18 +18,27 @@ const Route = use('Route')
 
 // Route.on('/').render('home')
 
-Route.get('/testing', () => 'hello world').as('get.hello')
+Route.get('/', () => 'hello world').as('get.hello')
 
 // simplify
 // Route.route('/', () => 'ini adalah multiple route', ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'])
+Route.put('/posts/edit', 'TodoController.edit').middleware('auth')
 
-Route.get('/posts', 'TodoController.index')
+Route.get('/posts/search', 'TodoController.search').middleware('auth')
 
-Route.post('/posts', 'TodoController.create')
+Route.get('/posts', 'TodoController.index').middleware('auth')
 
-Route.delete('/posts/:id', 'TodoController.delete')
+Route.post('/posts', 'TodoController.create').middleware('auth')
 
-Route.get('/posts/:id', 'TodoController.getDetail')
+Route.delete('/posts/:id', 'TodoController.delete').middleware('auth')
 
+Route.get('/posts/:id', 'TodoController.getDetail').middleware('auth')
 
-Route.post('/posts/create', 'TodoController.create')
+Route.post('/posts/create', 'TodoController.create').middleware('auth')
+
+// authenticate
+Route.post('register', 'UserController.create')
+Route.post('login', 'UserController.login')
+Route.put('password-reset', 'UserController.resetPassword').middleware('auth')
+Route.delete('delete', 'UserController.delete').middleware('auth')
+

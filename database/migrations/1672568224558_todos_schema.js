@@ -7,9 +7,12 @@ class TodosSchema extends Schema {
   up () {
     this.create('todos', (table) => {
       table.increments()
+      table.integer('user_id').unsigned()
       table.string("name", 60).nullable()
       table.string("description").nullable()
       table.timestamps()
+      table.foreign('user_id')
+      .references('users.id')
     })
   }
 

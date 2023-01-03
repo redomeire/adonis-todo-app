@@ -19,24 +19,28 @@ class TodoSeeder {
     const todos = await Database.table('todos')
     .insert([
       {
+        user_id: 1,
         name: 'Belajar Adonis',
         description: 'lorem ipsum dolor sit amet',
         created_at: new Date(),
         updated_at: new Date()
       },
       {
+        user_id: 1,
         name: 'Belajar Adonis 2',
         description: 'lorem ipsum dolor sit amet',
         created_at: new Date(),
         updated_at: new Date()
       },
       {
+        user_id: 1,
         name: 'Belajar Adonis 3',
         description: 'lorem ipsum dolor sit amet',
         created_at: new Date(),
         updated_at: new Date()
       },
       {
+        user_id: 1,
         name: 'Belajar Adonis 4',
         description: 'lorem ipsum dolor sit amet',
         created_at: new Date(),
