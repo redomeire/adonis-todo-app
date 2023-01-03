@@ -82,6 +82,105 @@ npm start
 | :--------- | :------- | :--------------------------------- |
 | `email`    | `email`  | **Required**. email                |
 | `password` | `string` | **Required**. Password to identify |
+
+#### Reset password
+
+```http
+  PUT /password-reset
+```  
+
+| Request        | Type     | Description                     |
+| :---------     | :------- | :-------------------------------|
+| `old_password` | `string` | **Required**. your old password |
+| `new_password` | `string` | **Required**. your new password |
+
+**_Important*_**
+
+#### Delete Account
+
+```http
+  DELETE /delete
+```  
+
+**_Important*_**
+
+#### Create Todo
+
+```http
+  POST /posts
+```  
+
+| Request       | Type     | Description                           |
+| :---------    | :------- | :------------------------------------ |
+| `name`        | `string` | **Required**. title of the todo       |
+| `description` | `string` | **Required**. description of the todo |
+
+**_Important*_**
+
+#### Get all todos
+
+```http
+  GET /posts?page={page}
+```  
+
+| Query params  | Type      | Description                           |
+| :------------ | :-------- | :------------------------------------ |
+| `page`        | `integer` | **Optional**. the page of pagination  |
+
+**_Important*_**
+
+#### Get todo detail
+
+```http
+  GET /posts/{id}
+```  
+
+| Path params   | Type      | Description                  |
+| :------------ | :-------- | :--------------------------- |
+| `id`          | `integer` | **Required**. the id of todo |
+
+**_Important*_**
+
+#### Search Todo
+
+```http
+  GET /posts/search?q={name}&page={page}
+```  
+
+| Query params  | Type       | Description                          |
+| :------------ | :--------  | :---------------------------         |
+| `name`        | `string`   | **Optional**. the name of todo       |
+| `page`        | `integer`  | **Optional**. the page of pagination |
+
+**_Important*_**
+
+#### Edit Todo
+
+```http
+  PUT /posts/edit
+```  
+
+| Request       | Type      | Description                           |
+| :---------    | :-------  | :------------------------------------ |
+| `id`          | `integer` | **Required**. id of the todo          |
+| `name`        | `string`  | **Required**. title of the todo       |
+| `description` | `string`  | **Required**. description of the todo |
+
+**_Important*_**
+
+#### Delete todo
+
+```http
+  DELETE /posts/{id}
+```  
+
+| Path params   | Type      | Description                           |
+| :---------    | :-------  | :------------------------------------ |
+| `id`          | `integer` | **Required**. id of the todo          |
+
+**_Important*_**
+
+**_Important :_** make sure to pass `Authorization` with `Bearer {token}` in request header.
     
 ## That's it ✨  
-FYI I'm really new to node js framework, so i dont think i will make next update for the feature in short time. After all, this project is my way to practice using AdonisJs. Feel free if you have a suggestion about the feature or anything
+FYI I'm really new to node js framework, so i dont think i will make next update for the feature in short time. After all, this project is my way to practice using AdonisJs. Feel free to suggest if you have a suggestion about the feature or anything
