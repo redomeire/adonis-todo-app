@@ -52,6 +52,12 @@ npm install
 cp .env.example .env
 ~~~
 
+- Generate app key
+
+~~~bash  
+adonis key:generate
+~~~
+
 - Create database in your local computer
 
 - Configure your database name, host, and password in .env file
