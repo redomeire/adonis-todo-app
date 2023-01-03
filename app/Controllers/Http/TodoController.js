@@ -3,18 +3,33 @@ const Todos = use('App/Models/Todo');
 
 class TodoController {
 
-    async index({ request }) {
-        const query = request.get();
-        const todos = await Todos.query().paginate(query.page, 10);
-
-        return todos.toJSON()
+    async index({ auth, request, response }) {
+        try {
+            const user = await auth.getUser()
+            const query = request.get();
+    
+            const todos = await Todos.query()
+            .where('user_id', user.id)
+            .paginate(query.page, 10);
+    
+            return todos.toJSON()
+        } catch(err){
+            return response.status(401).json({ status: 'error', code: 401, message: err.message })
+        }
     }
 
-    async create({ request, response }) {
+    async create({ auth, request, response }) {
         const body = request.only(['name', 'description'])
 
         try {
-            const newTodo = await Todos.create(body)
+            const user = await auth.getUser();
+            const newTodo = new Todos()
+            // const newTodo = await Todos.create(body)
+            newTodo.user_id = user.id;
+            newTodo.name = body.name;
+            newTodo.description = body.description
+
+            const saved = newTodo.save();
 
             return response.status(200).json({
                 code: 200,
@@ -22,31 +37,36 @@ class TodoController {
                 data: newTodo
             })
         } catch (err) {
-            return response.status(500).json({
-                code: 500,
+            return response.status(401).json({
+                code: 401,
                 status: 'error',
                 data: err.message
             })
         }
     }
 
-    async getDetail({ request }) {
+    async getDetail({ auth, request, response }) {
         const { id } = request.params;
-
-        const searchedTodo = await Todos.find(id);
-
-        return {
-            data: searchedTodo
+        try{
+            const user = await auth.getUser();
+            const searchedTodo = await Todos.find(id);
+    
+            return response.status(200).json({ status: 'success', code: 200, data: searchedTodo })
+        } catch(err) {
+            return response.status(401).json({ status: 'error', code: 401, message: err.message })
         }
     }
 
-    async edit({ request, response }) {
+    async edit({ auth, request, response }) {
         const body = request.only(['id', 'name', 'description'])
 
         try {
+            const user = await auth.getUser()
+
             await Todos
                 .query()
                 .where('id', body.id)
+                .where('user_id', user.id)
                 .update({
                     name: body.name,
                     description: body.description
@@ -54,36 +74,45 @@ class TodoController {
 
                 return response.status(200).json({ code: 200, status: 'success', message: 'todo updated' })
         } catch(err) {
-            return response.status(500).json({ code: 500, status: 'error', message: err.message })
+            return response.status(401).json({ code: 401, status: 'error', message: err.message })
         }
     }
 
-    async delete({ request, response }) {
+    async delete({ auth, request, response }) {
         const { id } = request.params;
 
         try {
-            const todo = await Todos.find(id);
-            todo?.delete()
+            const user = await auth.getUser();
+
+            const todo = await Todos.query().where('id', id).where('user_id', user.id).first()
+            
+            if(todo !== null)
+                todo?.delete()
+
+                else throw "data not found"
 
             return response.status(200).json({ code: 200, status: 'success', data: todo })
         } catch (err) {
-            return response.status(500).json({ code: 500, status: 'error', message: err.message })
+            return response.status(401).json({ code: 401, status: 'error', message: err.message })
         }
 
     }
 
-    async search({ request, response }){
+    async search({ auth, request, response }){
         const query = request.get();
 
         try{
+            const user = await auth.getUser()
+
             const todos = await Todos
             .query()
+            .where('user_id', user.id)
             .where('name', 'LIKE', `%${query.q}%`)
             .paginate(query.page, 2)
 
             return response.status(200).json({ code: 200, status: 'success', data: todos })
         } catch(err) {
-            return response.status(500).json({ code: 500, status: 'error', message: err.message })
+            return response.status(401).json({ code: 401, status: 'error', message: err.message })
         }
     }
 }

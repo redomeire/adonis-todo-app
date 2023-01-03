@@ -22,19 +22,19 @@ Route.get('/', () => 'hello world').as('get.hello')
 
 // simplify
 // Route.route('/', () => 'ini adalah multiple route', ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'])
-Route.put('/posts/edit', 'TodoController.edit')
+Route.put('/posts/edit', 'TodoController.edit').middleware('auth')
 
-Route.get('/posts/search', 'TodoController.search')
+Route.get('/posts/search', 'TodoController.search').middleware('auth')
 
-Route.get('/posts', 'TodoController.index')
+Route.get('/posts', 'TodoController.index').middleware('auth')
 
-Route.post('/posts', 'TodoController.create')
+Route.post('/posts', 'TodoController.create').middleware('auth')
 
-Route.delete('/posts/:id', 'TodoController.delete')
+Route.delete('/posts/:id', 'TodoController.delete').middleware('auth')
 
-Route.get('/posts/:id', 'TodoController.getDetail')
+Route.get('/posts/:id', 'TodoController.getDetail').middleware('auth')
 
-Route.post('/posts/create', 'TodoController.create')
+Route.post('/posts/create', 'TodoController.create').middleware('auth')
 
 // authenticate
 Route.post('register', 'UserController.create')
