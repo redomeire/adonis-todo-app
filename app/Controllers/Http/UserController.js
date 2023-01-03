@@ -1,9 +1,20 @@
 'use strict'
 const Users = use('App/Models/User')
 const Hash = use('Hash')
-const Encryption = use('Encryption')
 
 class UserController {
+
+    async index({ auth, response }){
+        try {
+            await auth.check()
+            const users = await Users.all()
+
+            return response.status(200).json({ status: 'success', code: 200, data: users })
+        } catch(err) {
+            if(err.code === 'E_INVALID_JWT_TOKEN')
+                return response.status(401).json({ status: 'error', message: err.message })
+        }
+    }
 
     async create({ auth, request, response }) {
         const body = request.only(['username', 'email', 'password']);
