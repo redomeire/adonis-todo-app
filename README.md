@@ -3,6 +3,14 @@
 # Adonis Todo App 📝  
 This is my first todo app api built using [AdonisJs](https://adonisjs.com/) framework. 
 
+## Table of contents  
+1. [Get started](#get-started-)  
+2. [Installation](#installation-)  
+3. [Run locally](#run-locally)  
+4. [Features](#features-)  
+5. [API References](#api-reference)  
+6. [Conclusion](#thats-it-)  
+
 ## Get Started 🚀 
 To get started, proceed until the end of this repo to get the instruction about installation, feature, etc
 
