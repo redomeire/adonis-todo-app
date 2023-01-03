@@ -94,15 +94,11 @@ npm start
 | `old_password` | `string` | **Required**. your old password |
 | `new_password` | `string` | **Required**. your new password |
 
-**_Important*_**
-
 #### Delete Account
 
 ```http
   DELETE /delete
 ```  
-
-**_Important*_**
 
 #### Create Todo
 
@@ -115,8 +111,6 @@ npm start
 | `name`        | `string` | **Required**. title of the todo       |
 | `description` | `string` | **Required**. description of the todo |
 
-**_Important*_**
-
 #### Get all todos
 
 ```http
@@ -126,8 +120,6 @@ npm start
 | Query params  | Type      | Description                           |
 | :------------ | :-------- | :------------------------------------ |
 | `page`        | `integer` | **Optional**. the page of pagination  |
-
-**_Important*_**
 
 #### Get todo detail
 
@@ -139,8 +131,6 @@ npm start
 | :------------ | :-------- | :--------------------------- |
 | `id`          | `integer` | **Required**. the id of todo |
 
-**_Important*_**
-
 #### Search Todo
 
 ```http
@@ -151,8 +141,6 @@ npm start
 | :------------ | :--------  | :---------------------------         |
 | `name`        | `string`   | **Optional**. the name of todo       |
 | `page`        | `integer`  | **Optional**. the page of pagination |
-
-**_Important*_**
 
 #### Edit Todo
 
@@ -166,8 +154,6 @@ npm start
 | `name`        | `string`  | **Required**. title of the todo       |
 | `description` | `string`  | **Required**. description of the todo |
 
-**_Important*_**
-
 #### Delete todo
 
 ```http
@@ -178,9 +164,7 @@ npm start
 | :---------    | :-------  | :------------------------------------ |
 | `id`          | `integer` | **Required**. id of the todo          |
 
-**_Important*_**
-
-**_Important :_** make sure to pass `Authorization` with `Bearer {token}` in request header.
+**_Important :_** make sure to pass `Authorization` with `Bearer {token}` in request header for every request except login and register. This is required to identify user.
     
 ## That's it ✨  
 FYI I'm really new to node js framework, so i dont think i will make next update for the feature in short time. After all, this project is my way to practice using AdonisJs. Feel free to suggest if you have a suggestion about the feature or anything
