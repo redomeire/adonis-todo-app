@@ -1,31 +1,170 @@
-# Adonis fullstack application
-
-This is the fullstack boilerplate for AdonisJs, it comes pre-configured with.
-
-1. Bodyparser
-2. Session
-3. Authentication
-4. Web security middleware
-5. CORS
-6. Edge template engine
-7. Lucid ORM
-8. Migrations and seeds
-
-## Setup
-
-Use the adonis command to install the blueprint
-
-```bash
-adonis new yardstick
-```
-
-or manually clone the repo and then run `npm install`.
 
 
-### Migrations
+# Adonis Todo App 📝  
+This is my first todo app api built using [AdonisJs](https://adonisjs.com/) framework. 
 
-Run the following command to run startup migrations.
+## Get Started 🚀 
+To get started, proceed until the end of this repo to get the instruction about installation, feature, etc
 
-```js
-adonis migration:run
-```
+## Installation 🔥  
+To install this project, we need to configure **this project itself** and **database**
+
+### Run Locally  
+- Clone the project  
+
+~~~bash  
+  git clone https://github.com/redomeire/adonis-todo-app.git
+~~~
+
+- Go to the project directory  
+
+~~~bash  
+  cd adonis-todo-app
+~~~
+
+- Install dependencies  
+
+~~~bash  
+npm install
+~~~
+
+- Copy .env.example to .env
+
+~~~bash  
+cp .env.example .env
+~~~
+
+- Create database in your local computer
+
+- Configure your database name, host, and password in .env file
+
+- Run migration 
+
+~~~bash  
+adonis migration:run --seed
+~~~
+
+- Start the server  
+
+~~~bash  
+npm start
+~~~   
+
+## Features 🔥
+- Login 
+- Create Account
+- Reset password
+- Delete account
+- CRUD Todo
+- Get todo detail
+
+## API Reference
+
+#### Register 
+
+```http
+  POST /register
+```  
+
+| Request    | Type     | Description                        |
+| :--------- | :------- | :--------------------------------- |
+| `email`    | `email`  | **Required**. email                |
+| `password` | `string` | **Required**. Password to identify |
+| `username` | `string` | **Required**. Username to identify |
+
+#### Login 
+
+```http
+  POST /login
+```  
+
+| Request    | Type     | Description                        |
+| :--------- | :------- | :--------------------------------- |
+| `email`    | `email`  | **Required**. email                |
+| `password` | `string` | **Required**. Password to identify |
+
+#### Reset password
+
+```http
+  PUT /password-reset
+```  
+
+| Request        | Type     | Description                     |
+| :---------     | :------- | :-------------------------------|
+| `old_password` | `string` | **Required**. your old password |
+| `new_password` | `string` | **Required**. your new password |
+
+#### Delete Account
+
+```http
+  DELETE /delete
+```  
+
+#### Create Todo
+
+```http
+  POST /posts
+```  
+
+| Request       | Type     | Description                           |
+| :---------    | :------- | :------------------------------------ |
+| `name`        | `string` | **Required**. title of the todo       |
+| `description` | `string` | **Required**. description of the todo |
+
+#### Get all todos
+
+```http
+  GET /posts?page={page}
+```  
+
+| Query params  | Type      | Description                           |
+| :------------ | :-------- | :------------------------------------ |
+| `page`        | `integer` | **Optional**. the page of pagination  |
+
+#### Get todo detail
+
+```http
+  GET /posts/{id}
+```  
+
+| Path params   | Type      | Description                  |
+| :------------ | :-------- | :--------------------------- |
+| `id`          | `integer` | **Required**. the id of todo |
+
+#### Search Todo
+
+```http
+  GET /posts/search?q={name}&page={page}
+```  
+
+| Query params  | Type       | Description                          |
+| :------------ | :--------  | :---------------------------         |
+| `name`        | `string`   | **Optional**. the name of todo       |
+| `page`        | `integer`  | **Optional**. the page of pagination |
+
+#### Edit Todo
+
+```http
+  PUT /posts/edit
+```  
+
+| Request       | Type      | Description                           |
+| :---------    | :-------  | :------------------------------------ |
+| `id`          | `integer` | **Required**. id of the todo          |
+| `name`        | `string`  | **Required**. title of the todo       |
+| `description` | `string`  | **Required**. description of the todo |
+
+#### Delete todo
+
+```http
+  DELETE /posts/{id}
+```  
+
+| Path params   | Type      | Description                           |
+| :---------    | :-------  | :------------------------------------ |
+| `id`          | `integer` | **Required**. id of the todo          |
+
+**_Important :_** make sure to pass `Authorization` with `Bearer {token}` in request header for every request except login and register. This is required to identify user.
+    
+## That's it ✨  
+FYI I'm really new to node js framework, so i dont think i will make next update for the feature in short time. After all, this project is my way to practice using AdonisJs. Feel free to suggest if you have a suggestion about the feature or anything
