@@ -39,4 +39,6 @@ Route.post('/posts/create', 'TodoController.create').middleware('auth')
 // authenticate
 Route.post('register', 'UserController.create')
 Route.post('login', 'UserController.login')
+Route.put('password-reset', 'UserController.resetPassword').middleware('auth')
+Route.delete('delete', 'UserController.delete').middleware('auth')
 
