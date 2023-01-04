@@ -4,23 +4,38 @@ const Hash = use('Hash')
 
 class UserController {
 
-    async index({ auth, response }){
+    async index({ auth, response }) {
         try {
             await auth.check()
             const users = await Users.all()
 
             return response.status(200).json({ status: 'success', code: 200, data: users })
-        } catch(err) {
-            if(err.code === 'E_INVALID_JWT_TOKEN')
+        } catch (err) {
+            if (err.code === 'E_INVALID_JWT_TOKEN')
                 return response.status(401).json({ status: 'error', message: err.message })
         }
     }
 
+    async getUserDetail({ auth, request, response }) {
+        const { id } = request.params;
+
+        try{
+            const user = await auth.getUser()
+
+            const searchedUser = await Users.query().where('id', id).first()
+
+            return response.status(200).json({ status: 'success', code: 200, data: searchedUser })    
+        } catch(err) {
+            return response.status(401).json({ status: 'error', code: 401, data: err.message }) 
+        }
+    }
+
     async create({ auth, request, response }) {
-        const body = request.only(['username', 'email', 'password']);
+        const body = request.only(['username', 'email', 'password', 'role']);
 
         let user = new Users();
 
+        user.role = body.role;
         user.username = body.username;
         user.email = body.email;
         user.password = body.password;
@@ -40,9 +55,9 @@ class UserController {
         const body = request.only(['email', 'password'])
 
         try {
-            const user = Users.findBy('email', body.email)
+            const user = await Users.findBy('email', body.email)
             const token = await auth.attempt(body.email, body.password);
-            return response.status(200).json({ code: 200, status: 'success', data: token });
+            return response.status(200).json({ code: 200, status: 'success', data: { user, token } });
         } catch (err) {
             return response.status(500).json({ code: 500, status: 'error', message: err.message })
         }
@@ -74,16 +89,20 @@ class UserController {
         }
     }
 
-    async delete({ auth, response }){
+    async delete({ auth, request, response }) {
         try {
+            const body = await request.only(['id'])
             const user = await auth.getUser()
-            const newUser = await Users.query().where('email', user.email).first();
+            const newUser = await Users.query().where('id', body.id).first();
 
-            if(newUser !== null)
+            if (newUser !== null && user.role === 'admin') {
                 newUser?.delete()
 
-            return response.status(200).json({ status: 'success', code: 200, data: newUser, message: 'success delete account' })
-        } catch(err){
+                return response.status(200).json({ status: 'success', code: 200, data: newUser, message: 'success delete account' })
+            }
+
+            return response.status(401).json({ status: 'error', code: 401, message: 'only admin can delete accounts' })
+        } catch (err) {
             return response.status(500).json({ status: 'error', code: 500, message: err.message })
         }
 
