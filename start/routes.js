@@ -28,6 +28,8 @@ Route.get('/posts/search', 'TodoController.search').middleware('auth')
 
 Route.get('/posts', 'TodoController.index').middleware('auth')
 
+Route.get('/posts/all', 'TodoController.getAllTodos').middleware('auth')
+
 Route.post('/posts', 'TodoController.create').middleware('auth')
 
 Route.delete('/posts/:id', 'TodoController.delete').middleware('auth')
@@ -38,6 +40,7 @@ Route.post('/posts/create', 'TodoController.create').middleware('auth')
 
 // authenticate
 Route.get('users', 'UserController.index')
+Route.get('users/detail/:id', 'UserController.getUserDetail').middleware('auth')
 Route.post('register', 'UserController.create').middleware('guest')
 Route.post('login', 'UserController.login').middleware('guest')
 Route.put('password-reset', 'UserController.resetPassword').middleware('auth')

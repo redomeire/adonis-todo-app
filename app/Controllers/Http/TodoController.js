@@ -18,6 +18,20 @@ class TodoController {
         }
     }
 
+    async getAllTodos({ auth, response }) {
+        try {
+            const user = await auth.getUser()
+            const todos = await Todos.all();
+
+            if(user.role !== 'admin')
+                throw response.status(401).json({ status: 'error', code: 401 })
+
+                return response.status(200).json({ status: 'success', code: 200, data: todos })
+        } catch(err) {
+            return response.status(401).json({ status: 'error', code: 401, message: err.message })
+        }
+    }
+
     async create({ auth, request, response }) {
         const body = request.only(['name', 'description'])
 
